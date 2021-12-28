@@ -1,9 +1,8 @@
      #HOTEL MANAGEMENT APPLICATION
-This application is developed with Golang programming language
-The following packages were used for this project
 
-- session - github.com/alexedwards/scs/v2 v2.5.0 // indirect
+This application is developed with Golang programming language The following packages were used for this project.
 
-- HTTP routes - github.com/go-chi/chi/v5 v5.0.7 // indirect
-
-- Cross Site Request Forgery - github.com/justinas/nosurf v1.1.1 // indirect
+- Built with Go version 1.17
+- Uses [session]  (github.com/alexedwards/scs/v2)
+- Uses [chi] (github.com/go-chi/chi/v5)
+- Uses [CSRF nosurf] (github.com/justinas/nosurf)  
