@@ -3,15 +3,14 @@ package main
 import (
 	"fmt"
 	"github.com/alexedwards/scs/v2"
-	"github.com/jerevick83/pkg/config"
-	"github.com/jerevick83/pkg/handlers"
-	"github.com/jerevick83/pkg/render"
+	"github.com/jerevick83/HOTEL-MGT/pkg/config"
+	"github.com/jerevick83/HOTEL-MGT/pkg/handlers"
+	"github.com/jerevick83/HOTEL-MGT/pkg/render"
+	"github.com/jerevick83/HOTEL-MGT/utils"
 	"log"
 	"net/http"
 	"time"
 )
-
-var portNumber = ":8080"
 
 var app config.AppConfig
 var session *scs.SessionManager
@@ -37,10 +36,10 @@ func main() {
 	handlers.NewHandlers(repo)
 	render.NewTemplates(&app)
 
-	fmt.Println("Server started on Port", portNumber)
+	fmt.Println("Server started on Port", utils.PortName)
 
 	server := &http.Server{
-		Addr:    portNumber,
+		Addr:    utils.PortName,
 		Handler: routes(&app),
 	}
 	err = server.ListenAndServe()

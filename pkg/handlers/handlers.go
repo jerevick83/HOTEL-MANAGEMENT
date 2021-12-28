@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"github.com/jerevick83/pkg/config"
-	"github.com/jerevick83/pkg/models"
-	"github.com/jerevick83/pkg/render"
+	"github.com/jerevick83/HOTEL-MGT/pkg/config"
+	"github.com/jerevick83/HOTEL-MGT/pkg/models"
+	"github.com/jerevick83/HOTEL-MGT/pkg/render"
 	"net/http"
 )
 
@@ -32,7 +32,7 @@ func NewHandlers(r *Repository) {
 // Home is the handler for the home page
 func (m *Repository) Home(w http.ResponseWriter, req *http.Request) {
 	stringMap := make(map[string]string)
-	stringMap["name"] = "Jeremiah"
+	stringMap["name"] = "Jeremiah Victor Harding"
 	remoteIp := req.RemoteAddr
 	m.App.Session.Put(req.Context(), "remote_Ip", remoteIp)
 	render.RenderTemplate(w, "home.page.gohtml", &models.TemplateData{
