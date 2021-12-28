@@ -1,4 +1,4 @@
-     #HOTEL MANAGEMENT APPLICATION
+     # HOTEL MANAGEMENT APPLICATION
 
 This application is developed with Golang programming language The following packages were used for this project.
 
