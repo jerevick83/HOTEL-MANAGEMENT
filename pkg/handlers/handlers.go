@@ -32,7 +32,7 @@ func NewHandlers(r *Repository) {
 // Home is the handler for the home page
 func (m *Repository) Home(w http.ResponseWriter, req *http.Request) {
 	stringMap := make(map[string]string)
-	stringMap["name"] = "Jeremiah Victor Harding"
+	stringMap["gender"] = "Jeremiah Victor Harding"
 	remoteIp := req.RemoteAddr
 	m.App.Session.Put(req.Context(), "remote_Ip", remoteIp)
 	render.RenderTemplate(w, "home.page.gohtml", &models.TemplateData{
