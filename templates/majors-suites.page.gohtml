@@ -1,0 +1,34 @@
+{{template "base" .}}
+{{define "title"}}
+    <title>Majors Page</title>
+{{end}}
+{{define "content"}}
+    <div class="container">
+        <div class="row">
+            <div class="col ">
+                <img alt="" class="img-fluid mx-auto d-block img-thumbnail room-images"
+                     src="/static/images/marjors-suite.png">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1 class="text-center mt-3">Majors' Suites</h1>
+                <p>
+                    This is the PRIDE of the south of Sierra Leone - Bo City. In this
+                    paradise, You will interact with the best services to take you stay
+                    to another level
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <a class="btn btn-success" href="#!"
+               id="checkAvail">Check Availabilty</a>
+        </div>
+    </div>
+{{end}}
+
+{{define "js"}}
+    <script src="/static/js/main.js"></script>
+{{end}}

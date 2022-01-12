@@ -49,3 +49,36 @@ func (m *Repository) About(w http.ResponseWriter, req *http.Request) {
 		StringMap: stringMap,
 	})
 }
+func (m *Repository) Reservation(w http.ResponseWriter, req *http.Request) {
+	stringMap := make(map[string]string)
+	remoteIp := m.App.Session.GetString(req.Context(), "remote_Ip")
+	stringMap["remoteIP"] = remoteIp
+	render.RenderTemplate(w, "reservation.page.gohtml", &models.TemplateData{
+		StringMap: stringMap,
+	})
+}
+func (m *Repository) Generals(w http.ResponseWriter, req *http.Request) {
+	stringMap := make(map[string]string)
+	remoteIp := m.App.Session.GetString(req.Context(), "remote_Ip")
+	stringMap["remoteIP"] = remoteIp
+	render.RenderTemplate(w, "generals.page.gohtml", &models.TemplateData{
+		StringMap: stringMap,
+	})
+}
+func (m *Repository) Majors(w http.ResponseWriter, req *http.Request) {
+	stringMap := make(map[string]string)
+	remoteIp := m.App.Session.GetString(req.Context(), "remote_Ip")
+	stringMap["remoteIP"] = remoteIp
+	render.RenderTemplate(w, "majors-suites.page.gohtml", &models.TemplateData{
+		StringMap: stringMap,
+	})
+}
+
+func (m *Repository) Contact(w http.ResponseWriter, req *http.Request) {
+	stringMap := make(map[string]string)
+	remoteIp := m.App.Session.GetString(req.Context(), "remote_Ip")
+	stringMap["remoteIP"] = remoteIp
+	render.RenderTemplate(w, "contact.page.gohtml", &models.TemplateData{
+		StringMap: stringMap,
+	})
+}

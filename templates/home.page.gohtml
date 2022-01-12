@@ -3,16 +3,86 @@
     <title>Home Page</title>
 {{end}}
 {{define "content"}}
+    <div
+            class="carousel slide carousel-fade"
+            data-bs-ride="carousel"
+            id="image-carousel"
+    >
+        <div class="carousel-indicators">
+            <button
+                    aria-current="true"
+                    aria-label="Slide 1"
+                    class="active"
+                    data-bs-slide-to="0"
+                    data-bs-target="#image-carousel"
+                    type="button"
+            ></button>
+            <button
+                    aria-label="Slide 2"
+                    data-bs-slide-to="1"
+                    data-bs-target="#image-carousel"
+                    type="button"
+            ></button>
+            <button
+                    aria-label="Slide 3"
+                    data-bs-slide-to="2"
+                    data-bs-target="#image-carousel"
+                    type="button"
+            ></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img
+                        alt="Woman with coffee"
+                        class="d-block w-100"
+                        src="../static/images/woman-laptop.png"
+                />
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Woman with Laptop</h5>
+                    <p>This is a woman with a Laptop</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img
+                        alt="Tray with coffee"
+                        class="d-block w-100"
+                        src="/static/images/tray.png"
+                />
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Tray with coffee</h5>
+                    <p>A tray with coffee</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img
+                        alt="Outside"
+                        class="d-block w-100"
+                        src="/static/images/outside.png"
+                />
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Outside View</h5>
+                    <p>A beautiful mountainous outside view</p>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1>Home page</h1>
-                <h2>{{index .StringMap "name"}} says "I love my codes"</h2>
+                <h1 class="text-center mt-3">Welcome to Galinese Paradise</h1>
+                <p>
+                    This is the PRIDE of the south of Sierra Leone - Bo City. In this
+                    paradise, You will interact with the best services to take you stay
+                    to another level
+                </p>
             </div>
-            <div style="background-image: url(/static/images/sean-boyd-xwxhpEpKOXU-unsplash.jpg);height: 460px">
-                <h2 class="text-white">This is the Homepage</h2>
-            </div>
-            {{/*            <img src="" alt="mountain">*/}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <a class="btn btn-success" href="/make-reservation"
+            >Make Reservation Now</a
+            >
         </div>
     </div>
 {{end}}
