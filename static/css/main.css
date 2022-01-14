@@ -58,3 +58,13 @@ label {
 .login-address {
     overflow: hidden;
 }
+
+.datepicker {
+    z-index: 10000;
+    color: black
+}
+
+/*.swal2-actions{*/
+/*    z-index: 2;*/
+/*    !*color: red*!*/
+/*}*/

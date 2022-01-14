@@ -1,9 +1,12 @@
 package handlers
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/jerevick83/HOTEL-MGT/pkg/config"
 	"github.com/jerevick83/HOTEL-MGT/pkg/models"
 	"github.com/jerevick83/HOTEL-MGT/pkg/render"
+	"log"
 	"net/http"
 )
 
@@ -35,7 +38,7 @@ func (m *Repository) Home(w http.ResponseWriter, req *http.Request) {
 	stringMap["gender"] = "Jeremiah Victor Harding"
 	remoteIp := req.RemoteAddr
 	m.App.Session.Put(req.Context(), "remote_Ip", remoteIp)
-	render.RenderTemplate(w, "home.page.gohtml", &models.TemplateData{
+	render.RenderTemplate(w, req, "home.page.gohtml", &models.TemplateData{
 		StringMap: stringMap,
 	})
 }
@@ -45,23 +48,45 @@ func (m *Repository) About(w http.ResponseWriter, req *http.Request) {
 	stringMap := make(map[string]string)
 	remoteIp := m.App.Session.GetString(req.Context(), "remote_Ip")
 	stringMap["remoteIP"] = remoteIp
-	render.RenderTemplate(w, "about.page.gohtml", &models.TemplateData{
+	render.RenderTemplate(w, req, "about.page.gohtml", &models.TemplateData{
 		StringMap: stringMap,
 	})
 }
-func (m *Repository) Reservation(w http.ResponseWriter, req *http.Request) {
-	stringMap := make(map[string]string)
-	remoteIp := m.App.Session.GetString(req.Context(), "remote_Ip")
-	stringMap["remoteIP"] = remoteIp
-	render.RenderTemplate(w, "reservation.page.gohtml", &models.TemplateData{
-		StringMap: stringMap,
-	})
+
+func (m *Repository) Availability(w http.ResponseWriter, req *http.Request) {
+	render.RenderTemplate(w, req, "search-availability.page.gohtml", &models.TemplateData{})
 }
+func (m *Repository) PostAvailability(w http.ResponseWriter, req *http.Request) {
+	start := req.Form.Get("start")
+	end := req.Form.Get("end")
+
+	w.Write([]byte(fmt.Sprintf("Start date is: %s\n, and end date is %s", start, end)))
+}
+
+type jsonResponse struct {
+	OK      bool   `json:"ok"`
+	Message string `json:"message"`
+}
+
+func (m *Repository) AvailabilityJson(w http.ResponseWriter, req *http.Request) {
+	resp := jsonResponse{
+		OK:      false,
+		Message: "Available",
+	}
+
+	output, err := json.MarshalIndent(resp, "", "     ")
+	if err != nil {
+		log.Println(err)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(output)
+}
+
 func (m *Repository) Generals(w http.ResponseWriter, req *http.Request) {
 	stringMap := make(map[string]string)
 	remoteIp := m.App.Session.GetString(req.Context(), "remote_Ip")
 	stringMap["remoteIP"] = remoteIp
-	render.RenderTemplate(w, "generals.page.gohtml", &models.TemplateData{
+	render.RenderTemplate(w, req, "generals.page.gohtml", &models.TemplateData{
 		StringMap: stringMap,
 	})
 }
@@ -69,7 +94,7 @@ func (m *Repository) Majors(w http.ResponseWriter, req *http.Request) {
 	stringMap := make(map[string]string)
 	remoteIp := m.App.Session.GetString(req.Context(), "remote_Ip")
 	stringMap["remoteIP"] = remoteIp
-	render.RenderTemplate(w, "majors-suites.page.gohtml", &models.TemplateData{
+	render.RenderTemplate(w, req, "majors-suites.page.gohtml", &models.TemplateData{
 		StringMap: stringMap,
 	})
 }
@@ -78,7 +103,15 @@ func (m *Repository) Contact(w http.ResponseWriter, req *http.Request) {
 	stringMap := make(map[string]string)
 	remoteIp := m.App.Session.GetString(req.Context(), "remote_Ip")
 	stringMap["remoteIP"] = remoteIp
-	render.RenderTemplate(w, "contact.page.gohtml", &models.TemplateData{
+	render.RenderTemplate(w, req, "contact.page.gohtml", &models.TemplateData{
+		StringMap: stringMap,
+	})
+}
+func (m *Repository) MakeReservation(w http.ResponseWriter, req *http.Request) {
+	stringMap := make(map[string]string)
+	remoteIp := m.App.Session.GetString(req.Context(), "remote_Ip")
+	stringMap["remoteIP"] = remoteIp
+	render.RenderTemplate(w, req, "makeReservation.page.gohtml", &models.TemplateData{
 		StringMap: stringMap,
 	})
 }

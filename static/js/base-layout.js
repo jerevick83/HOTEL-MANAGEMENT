@@ -1,4 +1,3 @@
-let attention = prompt();
 (function () {
     'use strict';
 
@@ -15,8 +14,9 @@ let attention = prompt();
             }, false)
         })
     })
-})()
+})();
 
+let attention = prompt();
 function prompt() {
     let success = (c) => {
 
@@ -54,10 +54,10 @@ function prompt() {
             msg = "",
             title = ""
         } = c
-        const {value: formValues} = await Swal.fire({
+        const {value: result} = await Swal.fire({
             title: title,
             html: msg,
-            backdrop: false,
+            backdrop: true,
             showCancelButton: true,
             customClass: {
                 cancelButton: "cancelBtn",
@@ -80,27 +80,39 @@ function prompt() {
                     showOnFocus: true
                 });
             },
+            didOpen: () => {
+                document.getElementById('start').removeAttribute("disabled");
+                document.getElementById('end').removeAttribute("disabled");
+            },
             preConfirm: () => {
                 return [
                     document.getElementById('start').value,
                     document.getElementById('end').value
                 ]
             },
-            didOpen: () => {
-                document.getElementById('start').removeAttribute("disabled");
-                document.getElementById('end').removeAttribute("disabled");
-            }
+
         })
 
-        if (formValues) {
-            Swal.fire(JSON.stringify(formValues))
+        if (result) {
+            if (result.dismiss !== Swal.DismissReason.cancel) {
+                if (result.value !== "") {
+                    if (c.callback !== undefined) {
+                        c.callback(result)
+                    }
+                } else {
+                    c.callback(false)
+                }
+            } else {
+                c.callback(false)
+            }
         }
     }
-    return ({
-            success,
-            warning,
-            error,
-            searchAvail
-        }
-    )
+    return {
+        success,
+        warning,
+        error,
+        searchAvail
+    }
 }
+
+
