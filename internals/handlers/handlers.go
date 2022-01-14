@@ -3,9 +3,9 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/jerevick83/HOTEL-MGT/pkg/config"
-	"github.com/jerevick83/HOTEL-MGT/pkg/models"
-	"github.com/jerevick83/HOTEL-MGT/pkg/render"
+	"github.com/jerevick83/HOTEL-MGT/internals/config"
+	"github.com/jerevick83/HOTEL-MGT/internals/models"
+	"github.com/jerevick83/HOTEL-MGT/internals/render"
 	"log"
 	"net/http"
 )

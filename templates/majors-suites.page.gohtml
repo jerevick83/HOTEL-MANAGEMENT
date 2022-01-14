@@ -24,10 +24,68 @@
     <div class="row">
         <div class="col text-center">
             <a class="btn btn-success" href="#!"
-               id="checkAvail">Check Availabilty</a>
+               id="checkAvail">Check Availability</a>
         </div>
     </div>
 {{end}}
 {{define "js"}}
-    <script src="/static/js/main.js"></script>
+    <script>
+        const checkAvail = document.querySelector("#checkAvail");
+        checkAvail.addEventListener("click", () => {
+            let form = `
+    <form action="" class="login-address needs-validation" method="post" novalidate id="search-availability">
+                    <div class="row">
+                        <div class="col ">
+                            <div class="row reservation-dates-modal">
+                                <div class="col">
+                                    <input disabled class="form-control" name="start" placeholder="Arrival date" required
+                                           type="text" id="start" autocomplete="off">
+                                </div>
+                                <div class="col">
+                                    <input disabled class="form-control" name="end" placeholder="Departure date" required
+                                           type="text" id="end" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <hr>
+    `
+            attention.searchAvail({
+                msg: form,
+                title: "Search Availability",
+                willOpen: () => {
+                    const calendarPicker = document.querySelector(".reservation-dates-modal");
+                    new DateRangePicker(calendarPicker, {
+                        format: "yyyy-mm-dd",
+                        orientation: "top",
+                        todayBtn: true,
+                        todayBtnMode: 1,
+                        autohide: true,
+                        allowOneSidedRange: true,
+                        showOnFocus: true
+                    });
+                },
+                didOpen: () => {
+                    document.getElementById('start').removeAttribute("disabled");
+                    document.getElementById('end').removeAttribute("disabled");
+                },
+                callback: function (result) {
+                    console.log("Jeremiah")
+                    let form = document.getElementById("search-availability")
+                    //  let tkn = document.querySelector('meta[name="csrf_token"]')
+                    let formData = new FormData(form);
+                    formData.append("csrf_token", "{{.CSRFToken}}");
+                    fetch("/searchAvail-json", {
+                        method: "post",
+                        body: formData,
+                    }).then(response => response.json()).then(data => {
+                        console.log(data)
+                        console.log(data.ok)
+                        console.log(data.message)
+                    })
+                }
+            })
+        })
+    </script>
 {{end}}

@@ -56,12 +56,28 @@
             attention.searchAvail({
                 msg: form,
                 title: "Search Availability",
+                willOpen: () => {
+                    const calendarPicker = document.querySelector(".reservation-dates-modal");
+                    new DateRangePicker(calendarPicker, {
+                        format: "yyyy-mm-dd",
+                        orientation: "top",
+                        todayBtn: true,
+                        todayBtnMode: 1,
+                        autohide: true,
+                        allowOneSidedRange: true,
+                        showOnFocus: true
+                    });
+                },
+                didOpen: () => {
+                    document.getElementById('start').removeAttribute("disabled");
+                    document.getElementById('end').removeAttribute("disabled");
+                },
                 callback: function (result) {
                     console.log("Jeremiah")
                     let form = document.getElementById("search-availability")
-                    let tkn = document.querySelector('meta[name="csrf_token"]')
+                    //  let tkn = document.querySelector('meta[name="csrf_token"]')
                     let formData = new FormData(form);
-                    formData.append("csrf_token", tkn);
+                    formData.append("csrf_token", "{{.CSRFToken}}");
                     fetch("/searchAvail-json", {
                         method: "post",
                         body: formData,

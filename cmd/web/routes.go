@@ -3,8 +3,8 @@ package main
 import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/jerevick83/HOTEL-MGT/pkg/config"
-	"github.com/jerevick83/HOTEL-MGT/pkg/handlers"
+	"github.com/jerevick83/HOTEL-MGT/internals/config"
+	"github.com/jerevick83/HOTEL-MGT/internals/handlers"
 	"net/http"
 )
 

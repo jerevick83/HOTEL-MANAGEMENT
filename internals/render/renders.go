@@ -3,8 +3,8 @@ package render
 import (
 	"bytes"
 	"fmt"
-	"github.com/jerevick83/HOTEL-MGT/pkg/config"
-	"github.com/jerevick83/HOTEL-MGT/pkg/models"
+	"github.com/jerevick83/HOTEL-MGT/internals/config"
+	"github.com/jerevick83/HOTEL-MGT/internals/models"
 	"github.com/justinas/nosurf"
 	"html/template"
 	"log"

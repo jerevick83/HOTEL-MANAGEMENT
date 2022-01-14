@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/alexedwards/scs/v2"
-	"github.com/jerevick83/HOTEL-MGT/pkg/config"
-	"github.com/jerevick83/HOTEL-MGT/pkg/handlers"
-	"github.com/jerevick83/HOTEL-MGT/pkg/render"
+	"github.com/jerevick83/HOTEL-MGT/internals/config"
+	"github.com/jerevick83/HOTEL-MGT/internals/handlers"
+	"github.com/jerevick83/HOTEL-MGT/internals/render"
 	"github.com/jerevick83/HOTEL-MGT/utils"
 	"log"
 	"net/http"

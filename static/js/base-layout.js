@@ -69,20 +69,14 @@ function prompt() {
             inputAutoTrim: true,
             buttonsStyling: false,
             willOpen: () => {
-                const calendarPicker = document.querySelector(".reservation-dates-modal");
-                new DateRangePicker(calendarPicker, {
-                    format: "yyyy-mm-dd",
-                    orientation: "top",
-                    todayBtn: true,
-                    todayBtnMode: 1,
-                    autohide: true,
-                    allowOneSidedRange: true,
-                    showOnFocus: true
-                });
+                if (c.willOpen !== undefined) {
+                    c.willOpen();
+                }
             },
             didOpen: () => {
-                document.getElementById('start').removeAttribute("disabled");
-                document.getElementById('end').removeAttribute("disabled");
+                if (c.didOpen !== undefined) {
+                    c.didOpen()
+                }
             },
             preConfirm: () => {
                 return [
