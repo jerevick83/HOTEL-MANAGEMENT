@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func WriteToConsole(next http.Handler) http.Handler {
+func _(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		fmt.Println("Hit the page")
 		next.ServeHTTP(w, req)

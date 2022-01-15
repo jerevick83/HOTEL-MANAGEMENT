@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/jerevick83/HOTEL-MGT/internals/config"
+	"github.com/jerevick83/HOTEL-MGT/internals/forms"
 	"github.com/jerevick83/HOTEL-MGT/internals/models"
 	"github.com/jerevick83/HOTEL-MGT/internals/render"
 	"log"
@@ -108,10 +109,72 @@ func (m *Repository) Contact(w http.ResponseWriter, req *http.Request) {
 	})
 }
 func (m *Repository) MakeReservation(w http.ResponseWriter, req *http.Request) {
-	stringMap := make(map[string]string)
-	remoteIp := m.App.Session.GetString(req.Context(), "remote_Ip")
-	stringMap["remoteIP"] = remoteIp
+	// emptyReservation gets all the fields of the Reservation and pass them on to the reservation field with the data they hold
+	var emptyReservation models.Reservation
+	data := make(map[string]interface{})
+	data["reservation"] = emptyReservation
 	render.RenderTemplate(w, req, "makeReservation.page.gohtml", &models.TemplateData{
-		StringMap: stringMap,
+		Form:    forms.New(nil),
+		DataMap: data,
 	})
+}
+
+func (m *Repository) ReservationSummary(w http.ResponseWriter, req *http.Request) {
+	// Getting item out of the session
+	reservationInfo, ok := m.App.Session.Get(req.Context(), "reservation").(models.Reservation)
+	if !ok {
+		log.Println("Cannot get item from session")
+	}
+	data := make(map[string]interface{})
+
+	// assigning a field to the DataMap struct
+	data["reservation"] = reservationInfo
+	render.RenderTemplate(w, req, "reservation-summary.page.gohtml", &models.TemplateData{
+		DataMap: data,
+	})
+}
+
+// PostMakeReservation handles the data posted from the make-reservation form
+func (m *Repository) PostMakeReservation(w http.ResponseWriter, req *http.Request) {
+	// ParseForm initially checks the form for any errors and stores any error in the error variables
+	err := req.ParseForm()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	//reservation getting the values from the posted form and storing them in the reservation struct fields
+	reservation := models.Reservation{
+		Firstname: req.Form.Get("fName"),
+		Lastname:  req.Form.Get("lName"),
+		Email:     req.Form.Get("email"),
+		Phone:     req.Form.Get("phone"),
+	}
+
+	// PostForm contains the data from ParseForm PATCH POST PUT form body parameter
+	form := forms.New(req.PostForm)
+
+	// Required checks whether the values from the form are not empty, else will return
+
+	form.Required("fName", "lName", "email")
+	// MinLength checks whether the values from the form are equal to the specified length, else will return
+
+	form.MinLength("fName", 5, req)
+	// IsEmail checks whether the value from the form email field has the proper structure of and email address, else will return
+	form.IsEmail("email")
+
+	if !form.Valid() {
+		data := make(map[string]interface{})
+		data["reservation"] = reservation
+		render.RenderTemplate(w, req, "makeReservation.page.gohtml", &models.TemplateData{
+			Form:    form,
+			DataMap: data,
+		})
+		return
+	}
+	// The session is used to store particular data (reservation) to a http redirect page
+	m.App.Session.Put(req.Context(), "reservation", reservation)
+
+	//redirecting client to another page (reservation-summary) after completing the booking
+	http.Redirect(w, req, "/reservation-summary", http.StatusSeeOther)
 }

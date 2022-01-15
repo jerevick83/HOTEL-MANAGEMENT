@@ -1,10 +1,12 @@
 package main
 
 import (
+	"encoding/gob"
 	"fmt"
 	"github.com/alexedwards/scs/v2"
 	"github.com/jerevick83/HOTEL-MGT/internals/config"
 	"github.com/jerevick83/HOTEL-MGT/internals/handlers"
+	"github.com/jerevick83/HOTEL-MGT/internals/models"
 	"github.com/jerevick83/HOTEL-MGT/internals/render"
 	"github.com/jerevick83/HOTEL-MGT/utils"
 	"log"
@@ -17,6 +19,9 @@ var session *scs.SessionManager
 
 // main is the main func that is run when the application starts
 func main() {
+	// storing values in a Session
+	gob.Register(models.Reservation{})
+
 	app.InProduction = false
 
 	// Handling site session

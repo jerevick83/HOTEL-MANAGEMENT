@@ -1,0 +1,40 @@
+{{template "base" .}}
+{{define "title"}}
+    <title>About Page</title>
+{{end}}
+{{define "content"}}
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col">
+                {{$info := index .DataMap "reservation"}}
+                <h1>Bookings Information</h1>
+                <hr>
+                <table class="table table-success table-bordered">
+                    <thead></thead>
+                    <tbody>
+                    <tr>
+                        <td>Name:</td>
+                        <td>{{$info.Firstname}} {{$info.Lastname}}</td>
+                    </tr>
+                    <tr>
+                        <td>Arrival Date:</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Departure Date:</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Email:</td>
+                        <td>{{$info.Email}}</td>
+                    </tr>
+                    <tr>
+                        <td>Phone Number:</td>
+                        <td>{{$info.Phone}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{{end}}

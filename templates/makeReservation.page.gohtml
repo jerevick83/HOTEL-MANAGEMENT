@@ -6,25 +6,51 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <form method="post" action="" class="needs-validation" novalidate>
+                {{$res := index .DataMap "reservation"}}
+                <form method="post" action="/make-reservation" class="needs-validatio" novalidate>
                     <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+
                     <div class="form-group mt-5">
                         <label for="first_name">First Name</label>
-                        <input type="text" name="first_name" id="first_name" class="form-control" required>
+                        {{/*                        sending form error message back to the user*/}}
+                        {{with .Form.Errors.Get "fName"}}
+                            <label for="" class="text-danger">{{.}}</label>
+                        {{end}}
+                        <input type="text" name="fName" id="first_name"
+                               class="form-control {{with .Form.Errors.Get "fName"}}
+                            is-invalid
+                        {{end}}" required value="{{$res.Firstname}}">
+
                     </div>
                     <div class="form-group">
                         <label for="last_name">Last Name
-
-                        </label><input type="text" name="last_name" id="last_name" class="form-control" required>
+                            {{with .Form.Errors.Get "lName"}}
+                                <label for="" class="text-danger">{{.}}</label>
+                            {{end}}
+                        </label><input type="text" name="lName" id="last_name"
+                                       class="form-control {{with .Form.Errors.Get "lName"}}
+                            is-invalid
+                        {{end}}" required value="{{$res.Lastname}}">
                     </div>
                     <div class="form-group">
                         <label for="email">Email
-
-                        </label><input type="email" name="email" id="email" class="form-control" required>
+                            {{with .Form.Errors.Get "email"}}
+                                <label for="" class="text-danger">{{.}}</label>
+                            {{end}}
+                        </label><input type="email" name="email" id="email"
+                                       class="form-control {{with .Form.Errors.Get "email"}}
+                            is-invalid
+                        {{end}}" required value="{{$res.Email}}">
                     </div>
                     <div class="form-group">
-                        <label for="phone">Phone Number
-                        </label> <input type="text" name="phone" id="phone" class="form-control" required>
+                        <label for="phone">Phone Number:
+                            {{with .Form.Errors.Get "phone"}}
+                                <label for="" class="text-danger">{{.}}</label>
+                            {{end}}
+                        </label> <input type="text" name="phone" id="phone"
+                                        class="form-control {{with .Form.Errors.Get "phone"}}
+                            is-invalid
+                        {{end}}" required value="{{$res.Phone}}">
                     </div>
                     {{/*    <button type="submit" class="btn btn-primary">Sert</button>*/}}
                     <input type="submit" value="Make Reservation" class="btn btn-primary mt-5" id="btn">
