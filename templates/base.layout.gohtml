@@ -121,6 +121,24 @@
     {{block "js" .}}
     {{end}}
     <script src="/static/js/base-layout.js"></script>
+    <script>
+        function notify(msg, msgType) {
+            notie.alert({
+                type: msgType,
+                text: msg
+            })
+        }
+
+        {{with .ErrorMessage}}
+        notify("{{.}}", "error")
+        {{end}}
+        {{with .FlashMessage}}
+        notify("{{.}}", "success")
+        {{end}}
+        {{with .WarningMessage}}
+        notify("{{.}}", "warning")
+        {{end}}
+    </script>
     </body>
     </html>
 {{end}}

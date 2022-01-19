@@ -107,6 +107,6 @@ function prompt() {
         error,
         searchAvail
     }
-}
 
+}
 

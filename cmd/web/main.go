@@ -20,6 +20,21 @@ var session *scs.SessionManager
 // main is the main func that is run when the application starts
 func main() {
 	// storing values in a Session
+	err := run()
+	if err != nil {
+		log.Fatal()
+	}
+	fmt.Println("Server started on Port", utils.PortName)
+
+	server := &http.Server{
+		Addr:    utils.PortName,
+		Handler: routes(&app),
+	}
+	err = server.ListenAndServe()
+	log.Fatal(err)
+}
+
+func run() error {
 	gob.Register(models.Reservation{})
 
 	app.InProduction = false
@@ -40,13 +55,5 @@ func main() {
 	repo := handlers.NewRepo(&app)
 	handlers.NewHandlers(repo)
 	render.NewTemplates(&app)
-
-	fmt.Println("Server started on Port", utils.PortName)
-
-	server := &http.Server{
-		Addr:    utils.PortName,
-		Handler: routes(&app),
-	}
-	err = server.ListenAndServe()
-	log.Fatal(err)
+	return nil
 }

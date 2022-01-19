@@ -1,6 +1,6 @@
 {{template "base" .}}
 {{define "title"}}
-    <title>About Page</title>
+    <title>Bookings Information</title>
 {{end}}
 {{define "content"}}
     <div class="container">
@@ -18,11 +18,11 @@
                     </tr>
                     <tr>
                         <td>Arrival Date:</td>
-                        <td></td>
+                        <td>{{$info.ArrivalDate}}</td>
                     </tr>
                     <tr>
                         <td>Departure Date:</td>
-                        <td></td>
+                        <td>{{$info.DepartureDate}}</td>
                     </tr>
                     <tr>
                         <td>Email:</td>

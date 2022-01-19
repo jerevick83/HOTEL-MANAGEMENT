@@ -21,7 +21,11 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
+// AddDefaultData adds data for all templates
 func AddDefaultData(data *models.TemplateData, req *http.Request) *models.TemplateData {
+	data.FlashMessage = app.Session.PopString(req.Context(), "flash")
+	data.ErrorMessage = app.Session.PopString(req.Context(), "error")
+	data.WarningMessage = app.Session.PopString(req.Context(), "warning")
 	data.CSRFToken = nosurf.Token(req)
 	return data
 }
@@ -51,10 +55,12 @@ func RenderTemplate(w http.ResponseWriter, req *http.Request, gohtml string, dat
 	}
 }
 
+var pathToTemplate = "./template"
+
 // CreateTemplateCache creates a template cache as a map
 func CreateTemplateCache() (map[string]*template.Template, error) {
 	myCache := map[string]*template.Template{}
-	pages, err := filepath.Glob("./templates/*.page.gohtml")
+	pages, err := filepath.Glob(fmt.Sprintf("%s/*.page.gohtml", pathToTemplate))
 	if err != nil {
 		return myCache, err
 	}
@@ -64,12 +70,12 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 		if err != nil {
 			return myCache, err
 		}
-		matches, err := filepath.Glob("./templates/*.layout.gohtml")
+		matches, err := filepath.Glob(fmt.Sprintf("%s/*.layout.gohtml", pathToTemplate))
 		if err != nil {
 			return myCache, err
 		}
 		if len(matches) > 0 {
-			templateSet, err = templateSet.ParseGlob("./templates/*.layout.gohtml")
+			templateSet, err = templateSet.ParseGlob(fmt.Sprintf("%s/*.layout.gohtml", pathToTemplate))
 			if err != nil {
 				return myCache, err
 			}

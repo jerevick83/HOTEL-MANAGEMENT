@@ -27,10 +27,34 @@
                             {{with .Form.Errors.Get "lName"}}
                                 <label for="" class="text-danger">{{.}}</label>
                             {{end}}
-                        </label><input type="text" name="lName" id="last_name"
-                                       class="form-control {{with .Form.Errors.Get "lName"}}
+                        </label>
+                        <input type="text" name="lName" id="last_name"
+                               class="form-control {{with .Form.Errors.Get "lName"}}
                             is-invalid
                         {{end}}" required value="{{$res.Lastname}}">
+                    </div>
+                    <div class="reservation-dates">
+                        <div class="form-group">
+                            <label for="arrival-date">Arrival Date
+                                {{with .Form.Errors.Get "arrival-date"}}
+                                    <label for="" class="text-danger">{{.}}</label>
+                                {{end}}
+                            </label>
+                            <input type="text" name="arrival-date" id="arrival-date"
+                                   class="form-control {{with .Form.Errors.Get "arrival-date"}}
+                            is-invalid
+                        {{end}}" required value="{{$res.ArrivalDate}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="departure-date">Departure Data
+                                {{with .Form.Errors.Get "departure-date"}}
+                                    <label for="" class="text-danger">{{.}}</label>
+                                {{end}}
+                            </label><input type="text" name="departure-date" id="departure-date"
+                                           class="form-control {{with .Form.Errors.Get "departure-date"}}
+                            is-invalid
+                        {{end}}" required value="{{$res.DepartureDate}}">
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="email">Email
@@ -58,4 +82,19 @@
             </div>
         </div>
     </div>
+{{end}}
+
+{{define "js"}}
+    <script>
+        const calendarPicker = document.querySelector(".reservation-dates");
+        new DateRangePicker(calendarPicker, {
+            format: "yyyy-mm-dd",
+            orientation: "top",
+            todayBtn: true,
+            todayBtnMode: 1,
+            autohide: true,
+            allowOneSidedRange: true,
+            showOnFocus: true
+        });
+    </script>
 {{end}}
