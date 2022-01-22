@@ -2,7 +2,9 @@ package render
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
+	"github.com/Masterminds/sprig"
 	"github.com/jerevick83/HOTEL-MGT/internals/config"
 	"github.com/jerevick83/HOTEL-MGT/internals/models"
 	"github.com/justinas/nosurf"
@@ -30,20 +32,25 @@ func AddDefaultData(data *models.TemplateData, req *http.Request) *models.Templa
 	return data
 }
 
-// RenderTemplate renders a template
-func RenderTemplate(w http.ResponseWriter, req *http.Request, gohtml string, data *models.TemplateData) {
+// RenderingTemplate renders a template
+func RenderingTemplate(w http.ResponseWriter, req *http.Request, gohtml string, data *models.TemplateData) error {
 	var templateCache map[string]*template.Template
 	if app.UseCache {
+		tc, err := CreateTemplateCache()
+		if err != nil {
+			log.Println(err)
+		}
+		templateCache = tc
+	} else {
 		// get the template cache from the app config
 		templateCache = app.TemplateCache
-	} else {
-		templateCache, _ = CreateTemplateCache()
 	}
 
 	templateC, ok := templateCache[gohtml]
 
 	if !ok {
-		log.Fatal("Could not get template from template cache")
+		//log.Fatal("Could not get template from template cache")
+		return errors.New("can't get template from cache")
 	}
 
 	buf := new(bytes.Buffer)
@@ -52,10 +59,12 @@ func RenderTemplate(w http.ResponseWriter, req *http.Request, gohtml string, dat
 	_, err := buf.WriteTo(w)
 	if err != nil {
 		fmt.Println("error passing template", err)
+		return err
 	}
+	return nil
 }
 
-var pathToTemplate = "./template"
+var pathToTemplate = "./templates"
 
 // CreateTemplateCache creates a template cache as a map
 func CreateTemplateCache() (map[string]*template.Template, error) {
@@ -66,7 +75,7 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 	}
 	for _, page := range pages {
 		name := filepath.Base(page)
-		templateSet, err := template.New(name).Funcs(functions).ParseFiles(page)
+		templateSet, err := template.New(name).Funcs(sprig.FuncMap()).ParseFiles(page)
 		if err != nil {
 			return myCache, err
 		}

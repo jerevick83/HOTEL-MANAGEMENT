@@ -7,7 +7,8 @@ type TemplateData struct {
 	IntMap    map[string]int
 	FloatMap  map[string]float32
 	// DataMap holds the data to the rendered pages
-	DataMap        map[string]interface{}
+	DataMap map[string]interface{}
+
 	FlashMessage   string
 	ErrorMessage   string
 	WarningMessage string

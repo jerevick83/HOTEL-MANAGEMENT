@@ -3,14 +3,14 @@ package main
 import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/jerevick83/HOTEL-MGT/internals/config"
 	"github.com/jerevick83/HOTEL-MGT/internals/handlers"
 	"net/http"
 )
 
-func routes(app *config.AppConfig) http.Handler {
+func routes() http.Handler {
 	mux := chi.NewRouter()
 	mux.Use(middleware.Recoverer)
+	mux.Use(middleware.Logger)
 	mux.Use(NoSurf)
 	mux.Use(SessionLoad)
 	mux.Get("/", handlers.Repo.Home)

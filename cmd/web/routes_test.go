@@ -3,13 +3,12 @@ package main
 import (
 	"fmt"
 	"github.com/go-chi/chi/v5"
-	"github.com/jerevick83/HOTEL-MGT/internals/config"
 	"testing"
 )
 
 func TestRoutes(t *testing.T) {
-	var app config.AppConfig
-	r := routes(&app)
+	//var app config.AppConfig
+	r := routes()
 
 	switch v := r.(type) {
 	case *chi.Mux:
