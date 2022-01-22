@@ -109,26 +109,6 @@ func (m *Repository) Contact(w http.ResponseWriter, req *http.Request) {
 	})
 }
 
-func (m *Repository) ReservationSummary(w http.ResponseWriter, req *http.Request) {
-	// Getting item out of the session
-	reservationInfo, ok := m.App.Session.Get(req.Context(), "reservation").(models.Reservation)
-	if !ok {
-		log.Println("Cannot get item from session")
-		m.App.Session.Put(req.Context(), "error", "Can't get reservation from session")
-		http.Redirect(w, req, "/make-reservation", http.StatusTemporaryRedirect)
-		return
-	}
-
-	// Removing items out of the session
-	m.App.Session.Remove(req.Context(), "reservation")
-	data := make(map[string]interface{})
-
-	// assigning a field to the DataMap struct
-	data["reservation"] = reservationInfo
-	render.RenderTemplate(w, req, "reservation-summary.page.gohtml", &models.TemplateData{
-		DataMap: data,
-	})
-}
 func (m *Repository) MakeReservation(w http.ResponseWriter, req *http.Request) {
 	// emptyReservation gets all the fields of the Reservation and pass them on to the reservation field with the data they hold
 	var emptyReservation models.Reservation
@@ -166,7 +146,7 @@ func (m *Repository) PostMakeReservation(w http.ResponseWriter, req *http.Reques
 	form.Required("fName", "lName", "email", "arrival-date", "departure-date")
 
 	// MinLength checks whether the values from the form are equal to the specified length, else will return
-	form.MinLength("fName", 5, req)
+	form.MinLength("fName", 5)
 
 	// IsEmail checks whether the value from the form email field has the proper structure of and email address, else will return
 	form.IsEmail("email")
@@ -187,4 +167,24 @@ func (m *Repository) PostMakeReservation(w http.ResponseWriter, req *http.Reques
 
 	//redirecting client to another page (reservation-summary) after completing the booking
 	http.Redirect(w, req, "/reservation-summary", http.StatusSeeOther)
+}
+func (m *Repository) ReservationSummary(w http.ResponseWriter, req *http.Request) {
+	// Getting item out of the session
+	reservationInfo, ok := m.App.Session.Get(req.Context(), "reservation").(models.Reservation)
+	if !ok {
+		log.Println("Cannot get item from session")
+		m.App.Session.Put(req.Context(), "error", "Can't get reservation from session")
+		http.Redirect(w, req, "/make-reservation", http.StatusTemporaryRedirect)
+		return
+	}
+
+	// Removing items out of the session
+	m.App.Session.Remove(req.Context(), "reservation")
+	data := make(map[string]interface{})
+
+	// assigning a field to the DataMap struct
+	data["reservation"] = reservationInfo
+	render.RenderTemplate(w, req, "reservation-summary.page.gohtml", &models.TemplateData{
+		DataMap: data,
+	})
 }

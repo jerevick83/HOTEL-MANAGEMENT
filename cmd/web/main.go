@@ -35,6 +35,7 @@ func main() {
 }
 
 func run() error {
+	//what's to put in the session
 	gob.Register(models.Reservation{})
 
 	app.InProduction = false

@@ -2,6 +2,7 @@ package render
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"github.com/jerevick83/HOTEL-MGT/internals/config"
 	"github.com/jerevick83/HOTEL-MGT/internals/models"
@@ -31,19 +32,24 @@ func AddDefaultData(data *models.TemplateData, req *http.Request) *models.Templa
 }
 
 // RenderTemplate renders a template
-func RenderTemplate(w http.ResponseWriter, req *http.Request, gohtml string, data *models.TemplateData) {
+func RenderTemplate(w http.ResponseWriter, req *http.Request, gohtml string, data *models.TemplateData) error {
 	var templateCache map[string]*template.Template
 	if app.UseCache {
 		// get the template cache from the app config
 		templateCache = app.TemplateCache
 	} else {
-		templateCache, _ = CreateTemplateCache()
+		tc, err := CreateTemplateCache()
+		if err != nil {
+			log.Println(err)
+		}
+		templateCache = tc
 	}
 
 	templateC, ok := templateCache[gohtml]
 
 	if !ok {
-		log.Fatal("Could not get template from template cache")
+		//log.Fatal("Could not get template from template cache")
+		return errors.New("can't get template from cache")
 	}
 
 	buf := new(bytes.Buffer)
@@ -52,7 +58,9 @@ func RenderTemplate(w http.ResponseWriter, req *http.Request, gohtml string, dat
 	_, err := buf.WriteTo(w)
 	if err != nil {
 		fmt.Println("error passing template", err)
+		return err
 	}
+	return nil
 }
 
 var pathToTemplate = "./template"

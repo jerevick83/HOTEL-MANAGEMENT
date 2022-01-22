@@ -1,14 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"github.com/justinas/nosurf"
 	"net/http"
 )
 
 func _(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-		fmt.Println("Hit the page")
+		//fmt.Println("Hit the page")
 		next.ServeHTTP(w, req)
 	})
 }
